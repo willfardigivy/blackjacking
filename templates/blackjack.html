@@ -1,0 +1,67 @@
+{% load static %}
+<html lang="en">
+
+<head>
+    <title>Blackjack Simulator</title>
+    <meta charset="utf-8">
+    <link href="{% static 'jackblack.css' %}" rel="stylesheet">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<!--Shift Alt F auto-fixes all of your indentation-->
+
+<body>
+
+    <div class="header">
+        Blackjack Simulator
+    </div>
+
+    <div class="bettext">
+        You have {{ casinoChips }} chips. How many would you like to bet?
+    </div>
+    <!-- When the Submit is pressed, it should call Django to get me some card
+    values from our database. None of the cards should show up until this happens. -->
+    <form action="checkBet" method="post" class="bet">
+        <input type="text" id="amount" name="amount" class="betline"><br>
+        <input type="submit" value="Submit" class="betsubmit">
+    </form>
+    <!-- DEALER'S CARD ROW - DRAWS TWO CARDS, ONE OF WHICH IS VISUALLY HIDDEN -->
+    <div class="cardrow">
+        <div class="card" style="background-color: red;"></div>
+        <div class="card">
+            <div class="cardtop">
+                {{ cardValue }} <!-- whatever value is pulled for the card -->
+            </div>
+            <!-- This is going to eventually be dependent on the suit the database pulls -->
+            <img src="{% static 'heart.jpg' %}" alt="Heart" class="cardsuit">
+            <div class="cardbottom">
+                {{ cardValue }}
+            </div>
+        </div>
+    </div>
+    <!-- PLAYER'S CARD ROW - DRAWS TWO CARDS AND THEN DISPLAYS HIT/STAND
+    Each time we press hit, we need another div class="card" to generate -->
+    <div class="cardrow" style="background-color:#3D0000">
+        <div class="card">
+            <div class="cardtop">
+                {{ cardValue }}
+            </div>
+            <!-- This is going to eventually be dependent on the suit the database pulls -->
+            <img src="{% static 'heart.jpg' %}" alt="Heart" class="cardsuit">
+            <div class="cardbottom">
+                {{ cardValue }}
+            </div>
+        </div>
+    </div>
+    <div class="total">
+        Current Total: {{ totalValue }}
+    </div>
+    <!-- Hit would generate another card while stand would end
+    and let dealer play until 21 -->
+    <form action="hitStand" method="post" class="choicesrow">
+        <input type="submit" value="Hit" class="choices">
+        <input type="submit" value="Stand" class="choices">
+    </form>
+</body>
+
+</html>
